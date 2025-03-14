@@ -1,0 +1,68 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "gimmie"
+version = "0.1.0"
+description = "A tool to download files from a list of URLs"
+readme = "README.md"
+requires-python = ">=3.7"
+license-files = ["LICEN[CS]E.*"]
+authors = [
+  {name = "Will Lay", email = "laywill@gmail.com"},
+]
+maintainers = [
+  {name = "Will Lay", email = "laywill@gmail.com"}
+]
+classifiers = [
+    # How mature is this project? Common values are
+    #   3 - Alpha
+    #   4 - Beta
+    #   5 - Production/Stable
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+dependencies = [
+    "requests>=2.25.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.1.0",
+    "responses>=0.23.0",
+]
+
+[project.scripts]
+gimmie = "gimmie.main:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/gimmie"]
+
+[tool.hatch.envs.test]
+dependencies = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.1.0",
+    "responses>=0.23.0",
+]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "integration: marks tests as integration tests"
+]
+
+[tool.coverage.run]
+source = ["gimmie"]
