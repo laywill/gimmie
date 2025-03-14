@@ -1,0 +1,104 @@
+name: Publish to PyPI
+
+on:
+  release:
+    types: [created]
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: 'Type of version update'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+jobs:
+  tests:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install hatch
+          python -m pip install -e ".[dev]"
+          
+      - name: Run tests
+        run: |
+          pytest --cov=gimmie tests/
+
+  build-and-publish:
+    name: Build and Publish
+    needs: tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install hatch build twine
+      
+      # Bump version if triggered by workflow_dispatch
+      - name: Bump version
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          # Install hatch
+          pip install hatch
+          
+          # Get current version
+          CURRENT_VERSION=$(hatch version)
+          echo "Current version: $CURRENT_VERSION"
+          
+          # Bump version
+          VERSION_TYPE=${{ github.event.inputs.version_type }}
+          hatch version $VERSION_TYPE
+          
+          NEW_VERSION=$(hatch version)
+          echo "New version: $NEW_VERSION"
+          
+          # Update version in __init__.py
+          VERSION_FILE="src/gimmie/__init__.py"
+          if [ -f "$VERSION_FILE" ]; then
+            sed -i "s/__version__ = \".*\"/__version__ = \"$NEW_VERSION\"/" "$VERSION_FILE"
+          fi
+          
+          # Commit the version change
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add src/gimmie/__init__.py pyproject.toml
+          git commit -m "Bump version to $NEW_VERSION"
+          git push
+          
+          # Create a new tag
+          git tag "v$NEW_VERSION"
+          git push --tags
+      
+      - name: Build package
+        run: |
+          python -m build
+      
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
+          skip_existing: true
