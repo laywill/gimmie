@@ -1,0 +1,36 @@
+# MegaLinter Configuration
+# https://megalinter.github.io/
+
+# Core Configuration
+APPLY_FIXES: yes
+DISABLE_ERRORS: false
+SHOW_ELAPSED_TIME: true
+PARALLEL: true
+FILEIO_REPORTER: false
+
+# Linters Configuration
+DISABLE:
+  - COPYPASTE # Disable copy-paste detection
+
+DISABLE_LINTERS:
+  - JSON_PRETTIER # Disable beautifying JSON with Prettier
+  - YAML_PRETTIER # Disable beautifying YAML with Prettier
+
+# Not worried if Lychee finds dead links
+SPELL_LYCHEE_DISABLE_ERRORS: true
+
+# Some Python Lint tools will fail without requirements installed
+PRE_COMMANDS:
+  - command: pip install pytest && pip install -e ".[dev]"
+    venv: pylint
+  - command: pip install pytest && pip install -e ".[dev]"
+    venv: pyright
+
+# Python Configuration
+PYTHON_BLACK_ARGUMENTS: "--line-length 88"
+PYTHON_ISORT_ARGUMENTS: "--profile black"
+PYTHON_FLAKE8_ARGUMENTS: "--max-line-length=88"
+PYTHON_MYPY_ARGUMENTS: "--ignore-missing-imports"
+
+# Filter Configuration
+FILTER_REGEX_EXCLUDE: (\.git|\.github|\.venv|\.pytest_cache|\.vscode|__pycache__)
