@@ -7,12 +7,6 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
-on:
-  # Trigger mega-linter at every push. Action will also be visible from Pull Requests to main
-  push: # Comment this line to trigger action only on pull-requests (not recommended if you don't pay for GH Actions)
-  pull_request:
-    branches: [master, main]
-
 env: # Comment env block if you don't want to apply fixes
   # Apply linter fixes configuration
   APPLY_FIXES: all # When active, APPLY_FIXES must also be defined as environment variable (in github/workflows/mega-linter.yml or other CI tool)
@@ -105,22 +99,22 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
-        
+
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-          
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           python -m pip install hatch
           python -m pip install -e ".[dev]"
-          
+
       - name: Run tests
         run: |
           pytest --cov=gimmie tests/
-          
+
       - name: Upload coverage report
         uses: codecov/codecov-action@v3
         with:
