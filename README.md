@@ -2,6 +2,14 @@
 
 A simple command-line tool to download files from a list of URLs.
 
+<!-- header-logo-start -->
+<div align="center">
+  <a href="https://github.com/laywill/gimmie" target="blank" title="Get Gimmie">
+    <img src="https://github.com/laywill/gimmie/raw/main/docs/assets/images/gimmie_logo_1x1.jpeg" alt="Gimmie Logo" min-height="200px">
+  </a>
+</div>
+<!-- header-logo-end -->
+
 ## Description
 
 Gimmie ("Give me your files") is a lightweight utility that downloads files from a list of web addresses. Simply provide a text file with one URL per line, and Gimmie will handle the rest.
