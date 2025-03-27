@@ -21,10 +21,24 @@ SPELL_LYCHEE_DISABLE_ERRORS: true
 
 # Some Python Lint tools will fail without requirements installed
 PRE_COMMANDS:
-  - command: python3 -m pip install --no-cache-dir -e ".[dev]"
+  # Export the TOML dependencies to requirements.txt file that each venv can consume
+  - command: python3 -m pip install --no-cache-dir toml-to-requirements
+    cwd: root
+    continue_if_failed: false
+
+  - command: toml-to-req --toml-file pyproject.toml --optional-lists dev,test
+    cwd: workspace
+    continue_if_failed: false
+
+  - command: mv requirements.txt /venvs/requirements.txt
+    cwd: workspace
+    continue_if_failed: false
+
+  - command: python3 -m pip install --no-cache-dir -r /venvs/requirements.txt
     venv: pylint
     continue_if_failed: false
-  - command: python3 -m pip install --no-cache-dir -e ".[dev]"
+
+  - command: python3 -m pip install --no-cache-dir -r /venvs/requirements.txt
     venv: pyright
     continue_if_failed: false
 
@@ -33,7 +47,7 @@ PYTHON_BLACK_ARGUMENTS: "--line-length 88"
 PYTHON_ISORT_ARGUMENTS: "--profile black"
 PYTHON_FLAKE8_ARGUMENTS: "--max-line-length=88"
 PYTHON_MYPY_ARGUMENTS: "--ignore-missing-imports"
-PYTHON_BANDIT_ARGUMENTS: "--severity-level=high, --confidence-level=medium"
+PYTHON_BANDIT_ARGUMENTS: "--severity-level=high --confidence-level=medium"
 
 # JSON Configuration
 # --bom               Ignore the leading UTF-8 byte-order mark

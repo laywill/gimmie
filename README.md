@@ -38,12 +38,14 @@ pip install gimmie
 ### From Source
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/yourusername/gimmie.git
    cd gimmie
    ```
 
 2. Install the package:
+
    ```bash
    pip install .
    ```
@@ -121,7 +123,7 @@ https://example.com/file3.zip
 3. Install development dependencies:
 
    ```bash
-   pip install -e ".[dev]"
+   pip install -e ".[dev,test]"
    ```
 
 ### Running Tests
