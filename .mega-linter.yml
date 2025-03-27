@@ -38,9 +38,9 @@ PRE_COMMANDS:
     venv: pylint
     continue_if_failed: false
 
-  - command: python3 -m pip install --no-cache-dir -r /venvs/requirements.txt
-    venv: pyright
-    continue_if_failed: false
+  # - command: python3 -m pip install --no-cache-dir -r /venvs/requirements.txt
+  #   venv: pyright
+  #   continue_if_failed: false
 
 # Python Configuration
 PYTHON_BLACK_ARGUMENTS: "--line-length 88"
