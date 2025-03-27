@@ -21,10 +21,12 @@ SPELL_LYCHEE_DISABLE_ERRORS: true
 
 # Some Python Lint tools will fail without requirements installed
 PRE_COMMANDS:
-  - command: pip install pytest && pip install -e ".[dev]"
+  - command: python3 -m pip install --no-cache-dir -e ".[dev]"
     venv: pylint
-  - command: pip install pytest && pip install -e ".[dev]"
+    continue_if_failed: false
+  - command: python3 -m pip install --no-cache-dir -e ".[dev]"
     venv: pyright
+    continue_if_failed: false
 
 # Python Configuration
 PYTHON_BLACK_ARGUMENTS: "--line-length 88"
