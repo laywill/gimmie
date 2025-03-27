@@ -39,5 +39,8 @@ PYTHON_MYPY_ARGUMENTS: "--ignore-missing-imports"
 # --trailing-commas   Allow trailing commas in JSON files
 JSON_JSONLINT_ARGUMENTS: "--comments --trailing-newline --trailing-commas"
 
+# CSpell Config
+SPELL_CSPELL_FILTER_REGEX_EXCLUDE: :(\.cspell\.json|\.gitignore)
+
 # Filter Configuration
 FILTER_REGEX_EXCLUDE: (\.git|\.github|\.venv|\.pytest_cache|\.vscode|__pycache__)
