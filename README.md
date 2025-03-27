@@ -53,13 +53,15 @@ pip install gimmie
 ### Basic Usage
 
 1. Create a text file (e.g., `files-to-download.txt`) with one URL per line:
-   ```
+
+   ```plaintext
    https://example.com/file1.pdf
    https://example.com/file2.jpg
    https://example.com/file3.zip
    ```
 
 2. Run Gimmie with the file as an argument:
+
    ```bash
    gimmie files-to-download.txt
    ```
@@ -68,14 +70,16 @@ pip install gimmie
 
 ### Command-Line Options
 
-```
+```bash
 gimmie [-h] [-d DIRECTORY] url_file
 ```
 
 Arguments:
+
 - `url_file`: Path to text file containing URLs (one per line)
 
 Options:
+
 - `-h, --help`: Show help message and exit
 - `-d DIRECTORY, --directory DIRECTORY`: Directory to save downloaded files (default: downloads)
 
@@ -89,11 +93,13 @@ gimmie files-to-download.txt -d my_files
 ## URL File Format
 
 The URL file should contain one URL per line. The tool will:
+
 - Strip whitespace from lines
 - Skip empty lines and lines starting with '#' (for comments)
 
 Example URL file:
-```
+
+```bash
 # Files to download
 https://example.com/file1.pdf
 https://example.com/file2.jpg
@@ -106,11 +112,14 @@ https://example.com/file3.zip
 
 1. Clone the repository
 2. Create a virtual environment:
+
    ```bash
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
+
 3. Install development dependencies:
+
    ```bash
    pip install -e ".[dev]"
    ```
