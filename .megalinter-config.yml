@@ -32,5 +32,12 @@ PYTHON_ISORT_ARGUMENTS: "--profile black"
 PYTHON_FLAKE8_ARGUMENTS: "--max-line-length=88"
 PYTHON_MYPY_ARGUMENTS: "--ignore-missing-imports"
 
+# JSON Configuration
+# --bom               Ignore the leading UTF-8 byte-order mark
+# --comments          Allow comments in JSON files
+# --trailing-newline  Ensure a trailing newline at the end of JSON files
+# --trailing-commas   Allow trailing commas in JSON files
+JSON_JSONLINT_ARGUMENTS: "--comments --trailing-newline --trailing-commas"
+
 # Filter Configuration
 FILTER_REGEX_EXCLUDE: (\.git|\.github|\.venv|\.pytest_cache|\.vscode|__pycache__)
