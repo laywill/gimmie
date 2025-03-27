@@ -66,8 +66,8 @@ jobs:
         run: |
           pytest --cov=gimmie tests/
 
-  build-and-publish:
-    name: Build and Publish
+  build-dist:
+    name: Build Distribution
     needs: tests
     runs-on: ubuntu-latest
     steps:
@@ -79,17 +79,42 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Install dependencies
+      - name: Install build dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install build twine
+          python -m pip install build
 
       - name: Build package
         run: |
           python -m build
 
-      - name: Publish to PyPI
+      - name: Upload package distributions
+        uses: actions/upload-artifact@v4
+        with:
+          name: package-distributions
+          path: dist/
+          retention-days: 1
+
+  publish-to-pypi:
+    name: Publish to PyPI
+    needs: build-dist
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/gimmie # Update this to your project name
+    permissions:
+      id-token: write # Required for trusted publishing
+      contents: read
+    steps:
+      - name: Download package distributions
+        uses: actions/download-artifact@v4
+        with:
+          name: package-distributions
+          path: dist/
+
+      - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          password: ${{ secrets.PYPI_API_TOKEN }}
-          skip_existing: false # Changed to false since we've validated the version
+          verify-metadata: true
+          verbose: true
+          print-hash: true
