@@ -9,7 +9,7 @@
         "misc",
         "powershell",
         "python",
-        "softwareTerms",
+        "softwareTerms"
     ],
     "flagWords": [
         "hte"
@@ -18,6 +18,6 @@
     "version": "0.2",
     "words": [
         "devcontainers",
-        "isort",
+        "isort"
     ]
 }
