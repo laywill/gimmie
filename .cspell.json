@@ -1,22 +1,23 @@
 {
-    "version": "0.2",
-    "language": "en-GB",
     "allowCompoundWords": true,
     "dictionaries": [
-        "en-GB",
         "bash",
+        "companies",
+        "en-GB",
+        "filetypes",
+        "fonts",
+        "misc",
+        "powershell",
         "python",
         "softwareTerms",
-        "filetypes",
-        "companies",
-        "misc"
-    ],
-    "words": [
-        "devcontainers",
-        "isort",
-        "Cascarino"
     ],
     "flagWords": [
         "hte"
+    ],
+    "language": "en-GB",
+    "version": "0.2",
+    "words": [
+        "devcontainers",
+        "isort",
     ]
 }
