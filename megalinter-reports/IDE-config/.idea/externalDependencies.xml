@@ -1,0 +1,7 @@
+<project version="4">
+	<component name="ExternalDependencies">
+		<plugin id="13348-mypy-official-/"/>
+		<plugin id="11563-flake8-support"/>
+		<plugin id="20574-ruff"/>
+	</component>
+</project>

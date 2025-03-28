@@ -1,0 +1,12 @@
+[0000]  WARN no explicit name and version provided for directory source, deriving artifact ID from the given path (which is not ideal)
+NAME                                  VERSION                                   TYPE                           
+actions/checkout                      11bd71901bbe5b1630ceea73d27597364c9af683  github-action  (+2 duplicates)  
+actions/download-artifact             95815c38cf2ff2164869cbab79da8d1f422bc89e  github-action                   
+actions/setup-python                  8d9ed9ac5c53483de85588cdf95a591a75ab9f55  github-action  (+1 duplicate)   
+actions/upload-artifact               ea165f8d65b6e75b540449e92b4886f43607fa02  github-action  (+1 duplicate)   
+codecov/codecov-action                0565863a31f2c772f9f0395002a31e3f06189574  github-action                   
+oxsecurity/megalinter                 146333030da68e2e58c6ff826633824fabe01eaf  github-action                   
+peter-evans/create-pull-request       271a8d0340265f705b14b6d32b9829c1cb33d45e  github-action                   
+pypa/gh-action-pypi-publish           76f52bc884231f62b9a034ebfe128415bbaabdfc  github-action                   
+release-drafter/release-drafter       b1476f6e6eb133afa41ed8589daba6dc69b4d3f5  github-action                   
+stefanzweifel/git-auto-commit-action  e348103e9026cc0eee72ae06630dbe30c8bf7a79  github-action
