@@ -1,0 +1,58 @@
+{
+    "name": "Auto-Header Development",
+    "image": "mcr.microsoft.com/devcontainers/python:1-3.12-bullseye",
+    // Features to add to the dev container
+    "features": {
+        // Git is essential for pre-commit hooks
+        "ghcr.io/devcontainers/features/git:1": {
+            "version": "latest",
+            "ppa": false
+        }
+    },
+    // Configure tool-specific properties
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                // Core Python development
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                // Formatters required by pre-commit config
+                "ms-python.black-formatter",
+                // YAML support for our config files
+                "redhat.vscode-yaml"
+            ],
+            "settings": {
+                "python.defaultInterpreterPath": "/usr/local/bin/python3",
+                // Test configuration
+                "python.testing.pytestEnabled": true,
+                "python.testing.unittestEnabled": false,
+                "python.testing.nosetestsEnabled": false,
+                "python.testing.pytestArgs": [
+                    "tests"
+                ],
+                // Formatting configuration
+                "editor.formatOnSave": true,
+                "python.formatting.provider": "black",
+                "python.formatting.blackArgs": [
+                    "--line-length",
+                    "100"
+                ],
+                "[python]": {
+                    "editor.defaultFormatter": "ms-python.black-formatter",
+                    "editor.formatOnSave": true,
+                    "editor.rulers": [
+                        100
+                    ]
+                }
+            }
+        }
+    },
+    // Use 'postCreateCommand' to run commands after the container is created.
+    "postCreateCommand": "git config --global --add safe.directory ${containerWorkspaceFolder} && pip install -e '.[dev]' && pre-commit install",
+    // Set `remoteUser` to `root` to connect as root instead.
+    "remoteUser": "vscode",
+    // Environment variables
+    "remoteEnv": {
+        "PYTHONPATH": "${containerWorkspaceFolder}/src"
+    },
+}

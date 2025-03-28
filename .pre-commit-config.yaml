@@ -1,0 +1,51 @@
+---
+# Hooks to use in this repository
+repos:
+  ########################################
+  # Beautifiers and Formatters
+  ########################################
+
+  # Sort all Python import statements
+  - repo: https://github.com/pycqa/isort
+    rev: 6.0.1
+    hooks:
+      - id: isort
+        name: isort (Python)
+        args: [--profile, black]
+
+  # Automatically fix outdated Python syntax
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.19.1
+    hooks:
+      - id: pyupgrade
+        name: pyupgrade (Python)
+        args: [--py39-plus, --keep-runtime-typing]
+
+  # Beautify Python
+  - repo: https://github.com/psf/black
+    rev: 25.1.0
+    hooks:
+      - id: black
+        name: black (Python)
+
+  ########################################
+  # Linters to validate beautifiers output
+  ########################################
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-ast
+      - id: check-case-conflict
+      - id: check-docstring-first
+      - id: check-illegal-windows-names
+      - id: check-merge-conflict
+      - id: check-toml
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: fix-byte-order-marker
+      - id: name-tests-test
+        args: [--pytest-test-first]
+      - id: no-commit-to-branch
+        args: [--branch, main]
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
