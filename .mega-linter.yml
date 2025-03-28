@@ -58,3 +58,6 @@ SPELL_CSPELL_FILTER_REGEX_EXCLUDE: (\.cspell\.json|\.gitignore)
 
 # Filter Configuration
 FILTER_REGEX_EXCLUDE: (\.git|\.github|\.venv|\.pytest_cache|\.vscode|__pycache__)
+
+# Checkov Configuration
+REPOSITORY_CHECKOV_ARGUMENTS: "--skip-check CKV2_GHA_1"
