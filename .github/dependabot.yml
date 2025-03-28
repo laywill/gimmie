@@ -9,13 +9,21 @@ updates:
     schedule:
       # Check for updates to GitHub Actions every week
       interval: "weekly"
+    labels:
+      - "github_actions"
+      - "chore"
   # Maintain dependencies for Python files in requirements.txt
   - package-ecosystem: "pip"
     directory: "/"
     schedule:
       interval: "weekly"
+    labels:
+      - "dependencies"
+      - "chore"
   # Maintain dependencies for Devcontainer dependencies
   - package-ecosystem: "devcontainers"
     directory: "/"
     schedule:
       interval: "weekly"
+    labels:
+      - "chore"
