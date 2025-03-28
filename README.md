@@ -26,7 +26,7 @@ Gimmie ("Give me your files") is a lightweight utility that downloads files from
 
 ### Requirements
 
-- Python 3.7 or higher
+- Python 3.9 or higher
 - `pip` package manager
 
 ### From PyPI (Recommended)

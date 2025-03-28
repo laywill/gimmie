@@ -54,5 +54,5 @@
     // Environment variables
     "remoteEnv": {
         "PYTHONPATH": "${containerWorkspaceFolder}/src"
-    },
+    }
 }
