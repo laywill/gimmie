@@ -6,7 +6,6 @@ on:
       - main
       - master
     paths:
-      - "pyproject.toml"
       - "src/gimmie/__init__.py"
 
 jobs:
@@ -31,7 +30,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install toml packaging
+          pip install packaging
 
       - name: Check Version Increment
         id: version_check
@@ -41,7 +40,6 @@ jobs:
           import os
           import re
           import sys
-          import toml
           from packaging import version
 
           def get_current_file(file_path, ref):
@@ -62,15 +60,6 @@ jobs:
               if match:
                   return match.group(1)
               return None
-
-          def extract_version_from_pyproject(content):
-              """Extract version from pyproject.toml content"""
-              try:
-                  data = toml.loads(content)
-                  return data.get("project", {}).get("version")
-              except Exception as e:
-                  print(f"Error parsing pyproject.toml: {e}")
-                  return None
 
           def is_valid_increment(old_ver, new_ver):
               """Check if new_ver is a valid increment of old_ver"""
@@ -114,9 +103,6 @@ jobs:
               base_ref = os.environ.get("BASE_REF", "origin/main")
 
               # Get current content
-              with open("pyproject.toml", "r") as f:
-                  current_pyproject = f.read()
-
               try:
                   with open("src/gimmie/__init__.py", "r") as f:
                       current_init = f.read()
@@ -125,40 +111,29 @@ jobs:
                   return 1
 
               # Get old content
-              old_pyproject = get_current_file("pyproject.toml", base_ref)
               old_init = get_current_file("src/gimmie/__init__.py", base_ref)
 
               # Extract versions
-              current_pyproject_version = extract_version_from_pyproject(current_pyproject)
               current_init_version = extract_version_from_init(current_init)
-              old_pyproject_version = extract_version_from_pyproject(old_pyproject)
               old_init_version = extract_version_from_init(old_init)
 
-              print(f"Current version in pyproject.toml: {current_pyproject_version}")
               print(f"Current version in __init__.py: {current_init_version}")
-              print(f"Old version in pyproject.toml: {old_pyproject_version}")
               print(f"Old version in __init__.py: {old_init_version}")
 
-              # Check if versions match in current files
-              if current_pyproject_version != current_init_version:
-                  print("Error: Version mismatch between pyproject.toml and __init__.py")
-                  return 1
-
-              # If no changes to version, that's also fine
-              if current_pyproject_version == old_pyproject_version and current_init_version == old_init_version:
+              # If no changes to version, that's fine
+              if current_init_version == old_init_version:
                   print("No version changes detected")
                   return 0
 
               # Check if new version is a valid increment
-              pyproject_valid = is_valid_increment(old_pyproject_version, current_pyproject_version)
               init_valid = is_valid_increment(old_init_version, current_init_version)
 
-              if not pyproject_valid or not init_valid:
+              if not init_valid:
                   print("Error: Invalid version increment")
                   print("Valid version increments would be:")
 
-                  if old_pyproject_version:
-                      old = version.parse(old_pyproject_version)
+                  if old_init_version:
+                      old = version.parse(old_init_version)
                       print(f"  {old.major}.{old.minor}.{old.micro+1} (patch)")
                       print(f"  {old.major}.{old.minor+1}.0 (minor)")
                       print(f"  {old.major+1}.0.0 (major)")
