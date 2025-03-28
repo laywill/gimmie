@@ -138,9 +138,51 @@ The recommended approach is to use a Docker Dev Container as this includes every
 
 ### Running Tests
 
+Run the tests using PyTest:
+
 ```bash
 pytest
 ```
+
+Set the environment variable `RUN_INTEGRATION_TESTS=1` to run integration tests that will actually download a file from the internet.
+
+Linux:
+
+```bash
+export RUN_INTEGRATION_TESTS=1
+```
+
+Windows:
+
+```bash
+set RUN_INTEGRATION_TESTS=1
+```
+
+### Updating Release version number
+
+Rather than set the version explicitly, use Hatch to roll version numbers:
+
+```bash
+$ hatch version minor
+Old: 0.1.0
+New: 0.2.0
+```
+
+The final word in the command above controls how the version is incremented:
+
+| Segments                 | New version |
+|:-------------------------|:------------|
+| `release`                | 1.0.0       |
+| `major`                  | 2.0.0       |
+| `minor`                  | 1.1.0       |
+| `micro` `patch` `fix`    | 1.0.1       |
+| `a` `alpha`              | 1.0.0a0     |
+| `b` `beta`               | 1.0.0b0     |
+| `c` `rc` `pre` `preview` | 1.0.0rc0    |
+| `r` `rev` `post`         | 1.0.0.post0 |
+| `dev`                    | 1.0.0.dev0  |
+
+This ensures that versions are rolled correctly.
 
 ## Contributing
 
