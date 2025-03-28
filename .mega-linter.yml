@@ -15,6 +15,7 @@ DISABLE:
 DISABLE_LINTERS:
   - JSON_PRETTIER # Disable beautifying JSON with Prettier
   - YAML_PRETTIER # Disable beautifying YAML with Prettier
+  - PYTHON_PYRIGHT # Disable Python linting with Pyright (cannot get dependecies to be satisfied)
 
 # Not worried if Lychee finds dead links
 SPELL_LYCHEE_DISABLE_ERRORS: true
@@ -37,10 +38,6 @@ PRE_COMMANDS:
   - command: python3 -m pip install --no-cache-dir -r /venvs/requirements.txt
     venv: pylint
     continue_if_failed: false
-
-  # - command: python3 -m pip install --no-cache-dir -r /venvs/requirements.txt
-  #   venv: pyright
-  #   continue_if_failed: false
 
 # Python Configuration
 PYTHON_BLACK_ARGUMENTS: "--line-length 88"
