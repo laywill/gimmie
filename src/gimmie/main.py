@@ -116,7 +116,6 @@ def download_content(
         total_size = initial_content_length
 
     # Track data received
-    last_data_time = time.time()
     bytes_in_this_attempt = 0
 
     # For progress display
@@ -135,7 +134,6 @@ def download_content(
             if chunk:
                 file.write(chunk)
                 bytes_in_this_attempt += len(chunk)
-                last_data_time = time.time()
 
                 # Check if we've exceeded initial size estimate
                 current_downloaded = downloaded_bytes + bytes_in_this_attempt
@@ -164,16 +162,16 @@ def handle_download_error(e, url, read_timeout, bytes_in_this_attempt, temp_path
     """Handle download errors with appropriate messaging."""
     if isinstance(e, requests.exceptions.ConnectTimeout):
         print(f"Connection timeout while connecting to {url}")
-        return True  # Retriable
+        return True  # Retryable
     elif isinstance(e, requests.exceptions.ReadTimeout):
         if bytes_in_this_attempt > 0:
             print(f"Download stalled - no data received for {read_timeout} seconds")
         else:
             print(f"Server did not respond within {read_timeout} seconds")
-        return True  # Retriable
+        return True  # Retryable
     elif isinstance(e, TimeoutError):
         print(f"Timeout error: {e}")
-        return True  # Retriable
+        return True  # Retryable
     elif isinstance(e, requests.exceptions.RequestException):
         print(f"Error downloading {url}: {e}")
         # Don't retry on 4xx errors (except 429 Too Many Requests)
@@ -181,11 +179,11 @@ def handle_download_error(e, url, read_timeout, bytes_in_this_attempt, temp_path
             if e.response.status_code != 429:  # 429 is recoverable
                 if os.path.exists(temp_path):
                     os.remove(temp_path)  # Clean up the partial file
-                return False  # Not retriable
-        return True  # Retriable
+                return False  # Not Retryable
+        return True  # Retryable
     else:
         print(f"Unexpected error: {e}")
-        return True  # Retriable
+        return True  # Retryable
 
 
 def apply_retry_backoff(attempts, retry_count):
