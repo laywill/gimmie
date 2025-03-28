@@ -4,6 +4,7 @@
 import argparse
 import os
 import sys
+import time
 from urllib.parse import urlparse
 
 import requests
@@ -52,6 +53,7 @@ def download_file(
     # Initialize retry counter and downloaded bytes
     attempts = 0
     downloaded_bytes = 0
+    bytes_in_this_attempt = 0
 
     while attempts <= retry_count:
         try:

@@ -5,6 +5,7 @@ from urllib.parse import urlparse
 
 import pytest
 import responses
+
 from gimmie.main import download_file, download_files_from_list, read_urls_from_file
 
 
@@ -69,6 +70,16 @@ def test_download_file(temp_dir):
         content_type="text/plain",
     )
 
+    # Add mocked Range request response for our new functionality
+    responses.add(
+        responses.GET,
+        test_url,
+        body=test_content,
+        status=206,
+        content_type="text/plain",
+        match=[responses.matchers.header_matcher({"Range": "bytes=0-"})],
+    )
+
     result = download_file(test_url, temp_dir)
 
     assert result is True
@@ -91,6 +102,14 @@ def test_download_file_http_error(temp_dir):
     # Mock the HTTP response
     responses.add(responses.GET, test_url, status=404)
 
+    # Also mock a range request that would be attempted
+    responses.add(
+        responses.GET,
+        test_url,
+        status=404,
+        match=[responses.matchers.header_matcher({"Range": "bytes=0-"})],
+    )
+
     result = download_file(test_url, temp_dir)
 
     assert result is False
@@ -112,10 +131,30 @@ def test_download_files_from_list(temp_dir):
 
     # Mock the HTTP responses
     responses.add(responses.GET, urls[0], body="Content of file 1", status=200)
+    responses.add(
+        responses.GET,
+        urls[0],
+        body="Content of file 1",
+        status=206,
+        match=[responses.matchers.header_matcher({"Range": "bytes=0-"})],
+    )
 
     responses.add(responses.GET, urls[1], body="Content of file 2", status=200)
+    responses.add(
+        responses.GET,
+        urls[1],
+        body="Content of file 2",
+        status=206,
+        match=[responses.matchers.header_matcher({"Range": "bytes=0-"})],
+    )
 
     responses.add(responses.GET, urls[2], status=500)
+    responses.add(
+        responses.GET,
+        urls[2],
+        status=500,
+        match=[responses.matchers.header_matcher({"Range": "bytes=0-"})],
+    )
 
     download_files_from_list(urls, temp_dir)
 
@@ -137,8 +176,9 @@ def test_integration_with_real_file():
             "https://raw.githubusercontent.com/laywill/gimmie/refs/heads/main/README.md"
         )
 
-        # Try to download the file
-        result = download_file(url, temp_dir)
+        # Try to download the file - disable resume for this test to avoid
+        # potential issues with GitHub's handling of range requests
+        result = download_file(url, temp_dir, attempt_resume=False)
 
         # If the repository exists and is public, this should succeed
         if result:

@@ -138,8 +138,24 @@ The recommended approach is to use a Docker Dev Container as this includes every
 
 ### Running Tests
 
+Run the tests using PyTest:
+
 ```bash
 pytest
+```
+
+Set the environment variable `RUN_INTEGRATION_TESTS=1` to run integration tests that will actually download a file from the internet.
+
+Linux:
+
+```bash
+export RUN_INTEGRATION_TESTS=1
+```
+
+Windows:
+
+```bash
+set RUN_INTEGRATION_TESTS=1
 ```
 
 ## Contributing
