@@ -96,26 +96,31 @@ def download_content(
     start_time,
 ):
     """Download content from response with progress tracking."""
-    # Get total file size if available from Content-Range header or Content-Length
-    total_size = 0
+    # Initial estimate of total size
+    initial_content_length = int(response.headers.get("content-length", 0))
 
+    # For resumed downloads with a valid Content-Range header
     if supports_resume and "Content-Range" in response.headers:
-        # Format is like "bytes 100-600/1000" where 1000 is the total size
         try:
             range_header = response.headers.get("Content-Range", "")
+            # Format is like "bytes 100-600/1000" where 1000 is the total size
             total_size = int(range_header.split("/")[-1])
         except (ValueError, IndexError):
-            # If we can't parse the header, fall back to content-length + downloaded bytes
-            content_length = int(response.headers.get("content-length", 0))
-            if content_length > 0:
-                total_size = downloaded_bytes + content_length
+            # If parsing fails, use content_length + downloaded_bytes
+            total_size = downloaded_bytes + initial_content_length
+    elif downloaded_bytes > 0:
+        # For resumed downloads without Content-Range
+        total_size = downloaded_bytes + initial_content_length
     else:
-        # For non-resume downloads, just use the content-length
-        total_size = int(response.headers.get("content-length", 0))
+        # For fresh downloads
+        total_size = initial_content_length
 
-    # Track last data received time for stall detection
+    # Track data received
     last_data_time = time.time()
     bytes_in_this_attempt = 0
+
+    # For progress display
+    show_percentage = total_size > 0
 
     # Save the file
     with open(temp_path, file_mode) as file:
@@ -132,20 +137,24 @@ def download_content(
                 bytes_in_this_attempt += len(chunk)
                 last_data_time = time.time()
 
-                # Update progress if we know the size
+                # Check if we've exceeded initial size estimate
                 current_downloaded = downloaded_bytes + bytes_in_this_attempt
-                if total_size > 0:
-                    # Cap percentage at 100% to prevent weird display issues
+                if show_percentage and current_downloaded > total_size:
+                    # Switch to byte count display if our estimate was wrong
+                    show_percentage = False
+
+                # Update progress display
+                if show_percentage:
                     percent = min((current_downloaded / total_size) * 100, 100.0)
                     print(
                         f"\rProgress: {percent:.1f}% ({current_downloaded}/{total_size} bytes)",
                         end="",
                     )
                 else:
-                    # If we don't know the total size, just show bytes downloaded
+                    # Just show downloaded bytes when total size is unknown or unreliable
                     print(f"\rDownloaded: {current_downloaded} bytes", end="")
 
-    # Clear the progress line
+    # Final newline after progress updates
     print()
 
     return bytes_in_this_attempt
