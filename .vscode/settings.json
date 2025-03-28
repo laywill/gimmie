@@ -1,0 +1,26 @@
+{
+    "files.associations": {
+        ".cspell.json": "jsonc"
+    },
+    // The default character set encoding to use when reading and writing files.
+    // This setting can also be configured per language.
+    "files.encoding": "utf8",
+
+    // The default enf of line character.
+    //   - \n   : LF
+    //   - \r\n : CRLF
+    //   - auto : Uses operating system specific end of line character
+    "files.eol": "\n",
+
+    // When enabled, insert a final new line at the end of the file when saving it.
+    "files.insertFinalNewline": true,
+
+    // When enabled, trim all new lines after the final new line at the end of the file when saving it.
+    "files.trimFinalNewlines": true,
+
+    // When enabled, trim all trailing whitespace on the end of lines.
+    "files.trimTrailingWhitespace": true,
+
+    // List of integer values of columns to show a vertical ruler in.
+    "editor.rulers": [88]
+}
