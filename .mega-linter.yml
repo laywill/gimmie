@@ -1,3 +1,4 @@
+---
 # MegaLinter Configuration
 # https://megalinter.github.io/
 
@@ -45,6 +46,7 @@ PYTHON_ISORT_ARGUMENTS: "--profile black"
 PYTHON_FLAKE8_ARGUMENTS: "--max-line-length=88"
 PYTHON_MYPY_ARGUMENTS: "--ignore-missing-imports"
 PYTHON_BANDIT_ARGUMENTS: "--severity-level=high --confidence-level=medium"
+PYTHON_PYLINT_ARGUMENTS: "--init-hook=\"import sys; sys.path.insert(0, 'src')\" --max-line-length=88"
 
 # JSON Configuration
 # --bom               Ignore the leading UTF-8 byte-order mark

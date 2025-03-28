@@ -1,7 +1,9 @@
 {
     "files.associations": {
-        ".cspell.json": "jsonc"
+        ".cspell.json": "jsonc",
+        ".vscode/settings.json": "jsonc"
     },
+
     // The default character set encoding to use when reading and writing files.
     // This setting can also be configured per language.
     "files.encoding": "utf8",
@@ -22,5 +24,15 @@
     "files.trimTrailingWhitespace": true,
 
     // List of integer values of columns to show a vertical ruler in.
-    "editor.rulers": [88]
+    "editor.rulers": [
+        88
+    ],
+
+    // Wherther or not to run VSCodes formatters on save.
+    "editor.formatOnSave": false,
+
+    // YAML Specific settings
+    "[yaml]": {
+        "editor.tabSize": 2
+    },
 }

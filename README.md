@@ -26,7 +26,7 @@ Gimmie ("Give me your files") is a lightweight utility that downloads files from
 
 ### Requirements
 
-- Python 3.7 or higher
+- Python 3.9 or higher
 - `pip` package manager
 
 ### From PyPI (Recommended)
@@ -109,6 +109,16 @@ https://example.com/file3.zip
 ```
 
 ## Development
+
+### Docker Dev Container
+
+The recommended approach is to use a Docker Dev Container as this includes everything you need.
+
+1. Install VSCode
+   1. Ensure the `ms-vscode-remote.remote-containers` extension is installed.
+2. Install Docker Desktop
+3. Clone the repository
+4. Reopen in Container
 
 ### Setting Up Development Environment
 
