@@ -65,7 +65,9 @@ def make_request(url, headers, timeout_tuple):
     return requests.get(url, stream=True, timeout=timeout_tuple, headers=headers)
 
 
-def handle_resume_response(response, downloaded_bytes, temp_path, timeout_tuple):
+def handle_resume_response(
+    response, url, downloaded_bytes, temp_path, timeout_tuple, file_mode
+):
     """Handle response when attempting to resume a download."""
     # Check if the server supports resume
     supports_resume = response.status_code == 206  # Partial Content
@@ -210,7 +212,7 @@ def download_file(
             # Handle resume-related response adjustments
             response, downloaded_bytes, file_mode, supports_resume = (
                 handle_resume_response(
-                    response, downloaded_bytes, temp_path, timeout_tuple
+                    response, url, downloaded_bytes, temp_path, timeout_tuple, file_mode
                 )
             )
 
