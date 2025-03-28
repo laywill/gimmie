@@ -1,6 +1,10 @@
 # Created by https://www.toptal.com/developers/gitignore/api/python,windows,osx,linux,visualstudiocode,pycharm
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,windows,osx,linux,visualstudiocode,pycharm
 
+### MegaLinter ###
+
+megalinter-reports/
+
 ### GitIngest ###
 # GitIngest file for priming LLM chat prompt
 digest.txt
