@@ -160,7 +160,7 @@ set RUN_INTEGRATION_TESTS=1
 
 ### Updating Release version number
 
-Rather than set the version explicity, use Hatch to roll version numbers:
+Rather than set the version explicitly, use Hatch to roll version numbers:
 
 ```bash
 $ hatch version minor
@@ -171,7 +171,7 @@ New: 0.2.0
 The final word in the command above controls how the version is incremented:
 
 | Segments                 | New version |
-| ------------------------ | ----------- |
+|:-------------------------|:------------|
 | `release`                | 1.0.0       |
 | `major`                  | 2.0.0       |
 | `minor`                  | 1.1.0       |
