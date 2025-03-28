@@ -19,11 +19,13 @@
     "version": "0.2",
     "words": [
         "devcontainers",
+        "gimmie",
         "isort",
         "pylance",
-        "gimmie",
+        "pypa",
         "pyupgrade",
-        "pypa"
+        "Retriable",
+        "Retryable"
     ],
     "ignoreWords": [
         "stefanzweifel"

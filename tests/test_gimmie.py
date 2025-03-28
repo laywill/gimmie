@@ -297,21 +297,21 @@ def test_handle_download_error():
         with open(temp_path, "wb") as f:
             f.write(b"partial content")
 
-        # Test connection timeout (retriable)
+        # Test connection timeout (Retryable)
         can_retry = handle_download_error(
             requests.exceptions.ConnectTimeout(), url, 60, 100, temp_path
         )
         assert can_retry is True
         assert os.path.exists(temp_path)  # File should not be deleted
 
-        # Test read timeout (retriable)
+        # Test read timeout (Retryable)
         can_retry = handle_download_error(
             requests.exceptions.ReadTimeout(), url, 60, 100, temp_path
         )
         assert can_retry is True
         assert os.path.exists(temp_path)
 
-        # Test 4xx error (except 429) - not retriable
+        # Test 4xx error (except 429) - not Retryable
         response = requests.Response()
         response.status_code = 404
         e = requests.exceptions.HTTPError()
@@ -321,7 +321,7 @@ def test_handle_download_error():
         assert can_retry is False
         assert not os.path.exists(temp_path)  # File should be deleted
 
-        # Test 429 (Too Many Requests) - retriable
+        # Test 429 (Too Many Requests) - Retryable
         with open(temp_path, "wb") as f:
             f.write(b"partial content")
 
@@ -334,7 +334,7 @@ def test_handle_download_error():
         assert can_retry is True
         assert os.path.exists(temp_path)  # File should not be deleted
 
-        # Test 5xx error - retriable
+        # Test 5xx error - Retryable
         response = requests.Response()
         response.status_code = 500
         e = requests.exceptions.HTTPError()
