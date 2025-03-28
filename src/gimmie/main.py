@@ -96,10 +96,22 @@ def download_content(
     start_time,
 ):
     """Download content from response with progress tracking."""
-    # Get total file size if available
-    total_size = int(response.headers.get("content-length", 0))
-    if total_size > 0 and supports_resume:
-        total_size += downloaded_bytes
+    # Get total file size if available from Content-Range header or Content-Length
+    total_size = 0
+
+    if supports_resume and "Content-Range" in response.headers:
+        # Format is like "bytes 100-600/1000" where 1000 is the total size
+        try:
+            range_header = response.headers.get("Content-Range", "")
+            total_size = int(range_header.split("/")[-1])
+        except (ValueError, IndexError):
+            # If we can't parse the header, fall back to content-length + downloaded bytes
+            content_length = int(response.headers.get("content-length", 0))
+            if content_length > 0:
+                total_size = downloaded_bytes + content_length
+    else:
+        # For non-resume downloads, just use the content-length
+        total_size = int(response.headers.get("content-length", 0))
 
     # Track last data received time for stall detection
     last_data_time = time.time()
@@ -123,15 +135,18 @@ def download_content(
                 # Update progress if we know the size
                 current_downloaded = downloaded_bytes + bytes_in_this_attempt
                 if total_size > 0:
-                    percent = (current_downloaded / total_size) * 100
+                    # Cap percentage at 100% to prevent weird display issues
+                    percent = min((current_downloaded / total_size) * 100, 100.0)
                     print(
                         f"\rProgress: {percent:.1f}% ({current_downloaded}/{total_size} bytes)",
                         end="",
                     )
+                else:
+                    # If we don't know the total size, just show bytes downloaded
+                    print(f"\rDownloaded: {current_downloaded} bytes", end="")
 
     # Clear the progress line
-    if total_size > 0:
-        print()
+    print()
 
     return bytes_in_this_attempt
 
