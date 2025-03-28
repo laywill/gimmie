@@ -16,6 +16,7 @@ def download_file(
     read_timeout=60,
     total_timeout=None,
     retry_count=3,
+    attempt_resume=True,
 ):
     """
     Download a file from a URL to the specified destination folder with timeout handling
@@ -27,6 +28,7 @@ def download_file(
         read_timeout (int): Seconds to wait between data chunks
         total_timeout (int, optional): Maximum seconds for the entire download
         retry_count (int): Number of retry attempts
+        attempt_resume (bool): Whether to attempt resuming partial downloads
 
     Returns:
         bool: True if download succeeded, False otherwise
@@ -38,37 +40,77 @@ def download_file(
     # Extract filename from URL
     filename = os.path.basename(urlparse(url).path)
 
-    # Create the full path for saving the file
+    # Define paths for final and temporary files
     file_path = os.path.join(destination_folder, filename)
+    temp_path = os.path.join(destination_folder, f".{filename}.part")
 
     print(f"Downloading {url} to {file_path}")
 
     # Track start time for total timeout
     start_time = time.time()
 
-    # Initialize retry counter
+    # Initialize retry counter and downloaded bytes
     attempts = 0
+    downloaded_bytes = 0
 
     while attempts <= retry_count:
         try:
-            # Track if we received any data (for retry logic)
-            received_data = False
+            headers = {}
+            file_mode = "wb"
+
+            # Check if we should try to resume a previous download
+            if os.path.exists(temp_path) and attempt_resume and attempts > 0:
+                downloaded_bytes = os.path.getsize(temp_path)
+                headers["Range"] = f"bytes={downloaded_bytes}-"
+                file_mode = "ab"
+                print(f"Resuming download from {downloaded_bytes} bytes")
+            else:
+                # Remove any existing partial download if we're not resuming
+                if os.path.exists(temp_path):
+                    os.remove(temp_path)
+                downloaded_bytes = 0
 
             # Set timeout as tuple (connect_timeout, read_timeout)
             response = requests.get(
-                url, stream=True, timeout=(connect_timeout, read_timeout)
+                url,
+                stream=True,
+                timeout=(connect_timeout, read_timeout),
+                headers=headers,
             )
+
+            # Check if the server supports resume
+            supports_resume = response.status_code == 206  # Partial Content
+
+            # If we tried to resume but got a 200 instead of 206, start over
+            if (
+                downloaded_bytes > 0
+                and not supports_resume
+                and response.status_code == 200
+            ):
+                print(
+                    "Server doesn't support resuming, starting download from beginning"
+                )
+                os.remove(temp_path)
+                downloaded_bytes = 0
+                file_mode = "wb"
+                # Make a new request without the Range header
+                response = requests.get(
+                    url, stream=True, timeout=(connect_timeout, read_timeout)
+                )
+
             response.raise_for_status()  # Raise an exception for HTTP errors
 
             # Get total file size if available
             total_size = int(response.headers.get("content-length", 0))
+            if total_size > 0 and supports_resume:
+                total_size += downloaded_bytes
 
             # Track last data received time for stall detection
             last_data_time = time.time()
-            downloaded_bytes = 0
+            bytes_in_this_attempt = 0
 
             # Save the file
-            with open(file_path, "wb") as file:
+            with open(temp_path, file_mode) as file:
                 for chunk in response.iter_content(chunk_size=8192):
                     # Check if total timeout has been exceeded
                     if total_timeout and (time.time() - start_time > total_timeout):
@@ -78,16 +120,16 @@ def download_file(
 
                     # If we got data, update our trackers
                     if chunk:
-                        received_data = True
                         file.write(chunk)
-                        downloaded_bytes += len(chunk)
+                        bytes_in_this_attempt += len(chunk)
                         last_data_time = time.time()
 
                         # Update progress if we know the size
+                        current_downloaded = downloaded_bytes + bytes_in_this_attempt
                         if total_size > 0:
-                            percent = (downloaded_bytes / total_size) * 100
+                            percent = (current_downloaded / total_size) * 100
                             print(
-                                f"\rProgress: {percent:.1f}% ({downloaded_bytes}/{total_size})",
+                                f"\rProgress: {percent:.1f}% ({current_downloaded}/{total_size} bytes)",
                                 end="",
                             )
 
@@ -95,13 +137,18 @@ def download_file(
             if total_size > 0:
                 print()
 
+            # If we get here, the download was successful, so rename the file
+            if os.path.exists(file_path):
+                os.remove(file_path)  # Remove any existing file first
+            os.rename(temp_path, file_path)
+
             print(f"Successfully downloaded {filename}")
             return True
 
         except requests.exceptions.ConnectTimeout:
             print(f"Connection timeout while connecting to {url}")
         except requests.exceptions.ReadTimeout:
-            if received_data:
+            if bytes_in_this_attempt > 0:
                 print(f"Download stalled - no data received for {read_timeout} seconds")
             else:
                 print(f"Server did not respond within {read_timeout} seconds")
@@ -109,19 +156,27 @@ def download_file(
             print(f"Timeout error: {e}")
         except requests.exceptions.RequestException as e:
             print(f"Error downloading {url}: {e}")
-            # Don't retry on 4xx errors
+            # Don't retry on 4xx errors (except 429 Too Many Requests)
             if hasattr(e, "response") and 400 <= e.response.status_code < 500:
-                return False
+                if e.response.status_code != 429:  # 429 is recoverable
+                    if os.path.exists(temp_path):
+                        os.remove(temp_path)  # Clean up the partial file
+                    return False
+        except Exception as e:
+            print(f"Unexpected error: {e}")
 
         attempts += 1
         if attempts <= retry_count:
-            wait_time = 2**attempts  # Exponential backoff
+            wait_time = min(2**attempts, 60)  # Exponential backoff, max 60 seconds
             print(
                 f"Retrying in {wait_time} seconds... (Attempt {attempts}/{retry_count})"
             )
             time.sleep(wait_time)
         else:
             print(f"Failed to download after {retry_count} attempts")
+            # Clean up the partial file if all retries failed
+            if os.path.exists(temp_path):
+                os.remove(temp_path)
 
     return False
 
@@ -151,6 +206,7 @@ def download_files_from_list(
     read_timeout=60,
     total_timeout=None,
     retry_count=3,
+    attempt_resume=True,
 ):
     """
     Download multiple files from a list of URLs
@@ -166,6 +222,7 @@ def download_files_from_list(
             read_timeout=read_timeout,
             total_timeout=total_timeout,
             retry_count=retry_count,
+            attempt_resume=attempt_resume,
         ):
             successful += 1
 
@@ -210,6 +267,11 @@ def main():
         default=3,
         help="Number of retry attempts for failed downloads (default: 3)",
     )
+    parser.add_argument(
+        "--no-resume",
+        action="store_true",
+        help="Do not attempt to resume partial downloads",
+    )
 
     args = parser.parse_args()
 
@@ -230,6 +292,7 @@ def main():
         read_timeout=args.read_timeout,
         total_timeout=args.total_timeout,
         retry_count=args.retry,
+        attempt_resume=not args.no_resume,
     )
     return 0
 
