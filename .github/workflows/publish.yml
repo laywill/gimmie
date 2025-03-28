@@ -102,6 +102,7 @@ jobs:
     environment:
       name: pypi
       url: https://pypi.org/p/gimmie # Update this to your project name
+    # chekov:skip=CKV2_GHA_1
     permissions:
       # kics-scan ignore-line
       id-token: write # Required for trusted publishing

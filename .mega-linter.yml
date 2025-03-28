@@ -15,7 +15,7 @@ DISABLE:
 DISABLE_LINTERS:
   - JSON_PRETTIER # Disable beautifying JSON with Prettier
   - YAML_PRETTIER # Disable beautifying YAML with Prettier
-  - PYTHON_PYRIGHT # Disable Python linting with Pyright (cannot get dependecies to be satisfied)
+  - PYTHON_PYRIGHT # Disable Python linting with Pyright (cannot get dependencies to be satisfied)
 
 # Not worried if Lychee finds dead links
 SPELL_LYCHEE_DISABLE_ERRORS: true
