@@ -5,6 +5,7 @@ from urllib.parse import urlparse
 
 import pytest
 import responses
+
 from gimmie.main import download_file, download_files_from_list, read_urls_from_file
 
 
