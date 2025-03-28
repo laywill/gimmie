@@ -4,11 +4,11 @@ build-backend = "hatchling.build"
 
 [project]
 name = "gimmie"
-version = "0.1.0"
 description = "A tool to download files from a list of URLs"
 readme = "README.md"
 requires-python = ">=3.9"
 license-files = ["LICENSE"]
+dynamic = ["version"]
 authors = [
   {name = "Will Lay", email = "laywill@gmail.com"},
 ]
@@ -37,6 +37,7 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
     "pre-commit>=4.2.0",
+    "hatch>=1.14.0",
 ]
 test = [
     "pytest>=7.0.0",
@@ -46,6 +47,9 @@ test = [
 
 [project.scripts]
 gimmie = "gimmie.main:main"
+
+[tool.hatch.version]
+path = "src/gimmie/__init__.py"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/gimmie"]
