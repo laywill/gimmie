@@ -158,6 +158,32 @@ Windows:
 set RUN_INTEGRATION_TESTS=1
 ```
 
+### Updating Release version number
+
+Rather than set the version explicity, use Hatch to roll version numbers:
+
+```bash
+$ hatch version minor
+Old: 0.1.0
+New: 0.2.0
+```
+
+The final word in the command above controls how the version is incremented:
+
+| Segments                 | New version |
+| ------------------------ | ----------- |
+| `release`                | 1.0.0       |
+| `major`                  | 2.0.0       |
+| `minor`                  | 1.1.0       |
+| `micro` `patch` `fix`    | 1.0.1       |
+| `a` `alpha`              | 1.0.0a0     |
+| `b` `beta`               | 1.0.0b0     |
+| `c` `rc` `pre` `preview` | 1.0.0rc0    |
+| `r` `rev` `post`         | 1.0.0.post0 |
+| `dev`                    | 1.0.0.dev0  |
+
+This ensures that versions are rolled correctly.
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
