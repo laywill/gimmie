@@ -1,0 +1,16 @@
+# CODEOWNERS file
+# These owners will be automatically requested for review when someone opens a PR
+
+# Default owner for everything in the repo
+* @laywill
+
+# Dependency files (for dependabot PRs)
+pyproject.toml @laywill
+setup.py @laywill
+requirements.txt @laywill
+
+# GitHub Actions workflows
+.github/workflows/* @laywill
+
+# Devcontainer configuration
+.devcontainer/* @laywill

@@ -12,6 +12,11 @@ updates:
     labels:
       - "github_actions"
       - "chore"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+
   # Maintain dependencies for Python files in requirements.txt
   - package-ecosystem: "pip"
     directory: "/"
@@ -20,6 +25,30 @@ updates:
     labels:
       - "dependencies"
       - "chore"
+    groups:
+      # Production dependencies - most critical
+      production-dependencies:
+        patterns:
+          - "requests*"
+      # Testing framework and tools
+      testing-dependencies:
+        patterns:
+          - "pytest*"
+          - "responses"
+      # Build and packaging tools
+      build-tools:
+        patterns:
+          - "hatch*"
+          - "hatchling"
+      # Catch-all for anything else
+      other-dependencies:
+        patterns:
+          - "*"
+      # Development tooling (code quality, linting, etc.)
+      dev-tools:
+        patterns:
+          - "pre-commit*"
+
   # Maintain dependencies for Devcontainer dependencies
   - package-ecosystem: "devcontainers"
     directory: "/"
@@ -27,3 +56,7 @@ updates:
       interval: "weekly"
     labels:
       - "chore"
+    groups:
+      devcontainer:
+        patterns:
+          - "*"
