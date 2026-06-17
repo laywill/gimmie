@@ -137,6 +137,53 @@ The recommended approach is to use a Docker Dev Container as this includes every
    pip install -e ".[dev,test]"
    ```
 
+### Dependency Management
+
+This project uses pip with version constraints defined in `pyproject.toml`. To ensure reproducible builds and consistent environments, we use pip-tools to generate locked dependency files.
+
+#### Locking Dependencies
+
+To generate locked dependencies for all environments (runtime, dev, test):
+
+```bash
+pip install pip-tools
+pip-compile -o requirements.txt pyproject.toml
+pip-compile -o requirements-dev.txt --extra dev pyproject.toml
+pip-compile -o requirements-test.txt --extra test pyproject.toml
+```
+
+#### Installing from Lock Files
+
+To install exact versions specified in the lock files (reproducible environment):
+
+```bash
+# Runtime only
+pip install -r requirements.txt
+
+# Development (includes runtime)
+pip install -r requirements-dev.txt
+
+# Testing (includes runtime)
+pip install -r requirements-test.txt
+
+# All (dev + test)
+pip install -r requirements-dev.txt -r requirements-test.txt
+```
+
+#### Updating Dependencies
+
+To update dependencies to their latest compatible versions:
+
+```bash
+pip-compile --upgrade -o requirements.txt pyproject.toml
+pip-compile --upgrade -o requirements-dev.txt --extra dev pyproject.toml
+pip-compile --upgrade -o requirements-test.txt --extra test pyproject.toml
+```
+
+#### Automated Updates with Dependabot
+
+Dependabot automatically monitors the repository for dependency updates and creates pull requests when newer versions are available. These PRs help keep dependencies current while maintaining security and compatibility. Lock files are compatible with OSV-scanner for vulnerability scanning.
+
 ### Running Tests
 
 Run the tests using PyTest:
