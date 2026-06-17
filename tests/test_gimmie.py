@@ -1,3 +1,14 @@
+import os
+import shutil
+import tempfile
+import time
+from io import BytesIO
+from urllib.parse import urlparse
+
+import pytest
+import requests
+import responses
+
 from gimmie.main import (
     apply_retry_backoff,
     cleanup_download,
@@ -11,17 +22,6 @@ from gimmie.main import (
     prepare_file_paths,
     read_urls_from_file,
 )
-
-from io import BytesIO
-
-import os
-import pytest
-import requests
-import responses
-import shutil
-import tempfile
-import time
-from urllib.parse import urlparse
 
 
 @pytest.fixture
