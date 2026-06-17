@@ -125,9 +125,10 @@ The recommended approach is to use a Docker Dev Container as this includes every
 1. Clone the repository
 2. Create a virtual environment:
 
-   ```bash
+   ```powershell
    python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   source venv/bin/activate   # On Linux / MacOS
+   venv\Scripts\activate      # On Windows
    ```
 
 3. Install development dependencies:
