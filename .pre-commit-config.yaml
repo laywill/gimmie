@@ -7,7 +7,7 @@ repos:
 
   # Sort all Python import statements
   - repo: https://github.com/pycqa/isort
-    rev: 6.0.1
+    rev: 8.0.1
     hooks:
       - id: isort
         name: isort (Python)
@@ -15,7 +15,7 @@ repos:
 
   # Automatically fix outdated Python syntax
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.19.1
+    rev: v3.21.2
     hooks:
       - id: pyupgrade
         name: pyupgrade (Python)
@@ -23,7 +23,7 @@ repos:
 
   # Beautify Python
   - repo: https://github.com/psf/black
-    rev: 25.1.0
+    rev: 26.5.1
     hooks:
       - id: black
         name: black (Python)
@@ -32,7 +32,7 @@ repos:
   # Linters to validate beautifiers output
   ########################################
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: check-ast
       - id: check-case-conflict
