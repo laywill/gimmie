@@ -29,10 +29,13 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
-          python-version: "3.12"
+          python-version: "3.14"
 
       - name: Install pre-commit
         run: pip install pre-commit
 
+      - name: Validate pre-commit config
+        run: pre-commit validate-config
+
       - name: Run pre-commit on all files
-        run: pre-commit run --all-files
+        run: pre-commit run --all-files --show-diff-on-failure
