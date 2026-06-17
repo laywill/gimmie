@@ -3,8 +3,8 @@
     "dictionaries": [
         "bash",
         "companies",
-        "en-GB",
         "en_US",
+        "en-GB",
         "filetypes",
         "fonts",
         "misc",
@@ -21,6 +21,7 @@
         "devcontainers",
         "gimmie",
         "isort",
+        "Linters",
         "pylance",
         "pypa",
         "pyupgrade",
