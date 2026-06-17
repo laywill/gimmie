@@ -1,6 +1,6 @@
 {
-    "name": "Auto-Header Development",
-    "image": "mcr.microsoft.com/devcontainers/python:3.9",
+    "name": "Gimmie Development",
+    "image": "mcr.microsoft.com/devcontainers/python:3.14",
     // Features to add to the dev container
     "features": {
         // Git is essential for pre-commit hooks
