@@ -49,8 +49,20 @@ updates:
         patterns:
           - "pre-commit*"
 
-  # Maintain dependencies for Devcontainer dependencies
+  # Maintain dependencies for Devcontainer
   - package-ecosystem: "devcontainers"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "chore"
+    groups:
+      devcontainer:
+        patterns:
+          - "*"
+
+  # Maintain dependencies for pre-commit
+  - package-ecosystem: "pre-commit"
     directory: "/"
     schedule:
       interval: "weekly"
