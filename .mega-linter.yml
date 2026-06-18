@@ -18,6 +18,7 @@ DISABLE_LINTERS:
   - YAML_PRETTIER # Disable beautifying YAML with Prettier
   - PYTHON_PYRIGHT # Disable Python linting with Pyright (cannot get dependencies to be satisfied)
   - PYTHON_ISORT # Disable isort as MegaLinter is using a really old version that disagrees with pre-commit
+  - REPOSITORY_OSV_SCANNER  # Disable repository scanning as this is being triggered falsely then failing when it can't find a lock file
 
 # Not worried if Lychee finds dead links
 SPELL_LYCHEE_DISABLE_ERRORS: true
