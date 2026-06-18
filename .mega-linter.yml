@@ -17,7 +17,7 @@ DISABLE_LINTERS:
   - JSON_PRETTIER # Disable beautifying JSON with Prettier
   - YAML_PRETTIER # Disable beautifying YAML with Prettier
   - PYTHON_PYRIGHT # Disable Python linting with Pyright (cannot get dependencies to be satisfied)
-  - PYTHON_ISORT # Disable isort as MegaLinter is using a really old version that disagress with pre-commit
+  - PYTHON_ISORT # Disable isort as MegaLinter is using a really old version that disagrees with pre-commit
 
 # Not worried if Lychee finds dead links
 SPELL_LYCHEE_DISABLE_ERRORS: true
