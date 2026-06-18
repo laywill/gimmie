@@ -31,7 +31,7 @@ classifiers = [
     "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
-    "requests>=2.25.0",
+    "requests>=2.25.0,<3.0.0",
 ]
 
 [project.optional-dependencies]
