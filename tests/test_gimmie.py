@@ -8,6 +8,7 @@ from urllib.parse import urlparse
 import pytest
 import requests
 import responses
+
 from gimmie.main import (
     apply_retry_backoff,
     cleanup_download,
