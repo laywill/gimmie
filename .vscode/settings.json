@@ -31,8 +31,23 @@
     // Wherther or not to run VSCodes formatters on save.
     "editor.formatOnSave": false,
 
+    // Infer indentation (tab size / spaces vs tabs) from file contents.
+    "editor.detectIndentation": true,
+
     // YAML Specific settings
     "[yaml]": {
         "editor.tabSize": 2
+    },
+
+    // Markdown/LaTeX/reST commonly use trailing whitespace for hard line
+    // breaks, so don't strip it on save.
+    "[markdown]": {
+        "files.trimTrailingWhitespace": false
+    },
+    "[latex]": {
+        "files.trimTrailingWhitespace": false
+    },
+    "[restructuredtext]": {
+        "files.trimTrailingWhitespace": false
     },
 }
