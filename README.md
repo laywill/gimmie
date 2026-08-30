@@ -39,16 +39,16 @@ pip install gimmie
 
 1. Clone the repository:
 
-   ```bash
-   git clone https://github.com/yourusername/gimmie.git
-   cd gimmie
-   ```
+    ```bash
+    git clone https://github.com/yourusername/gimmie.git
+    cd gimmie
+    ```
 
 2. Install the package:
 
-   ```bash
-   pip install .
-   ```
+    ```bash
+    pip install .
+    ```
 
 ## Usage
 
@@ -56,17 +56,17 @@ pip install gimmie
 
 1. Create a text file (e.g., `files-to-download.txt`) with one URL per line:
 
-   ```plaintext
-   https://example.com/file1.pdf
-   https://example.com/file2.jpg
-   https://example.com/file3.zip
-   ```
+    ```plaintext
+    https://example.com/file1.pdf
+    https://example.com/file2.jpg
+    https://example.com/file3.zip
+    ```
 
 2. Run Gimmie with the file as an argument:
 
-   ```bash
-   gimmie files-to-download.txt
-   ```
+    ```bash
+    gimmie files-to-download.txt
+    ```
 
 3. Files will be downloaded to a `downloads` directory in your current working directory.
 
@@ -115,7 +115,7 @@ https://example.com/file3.zip
 The recommended approach is to use a Docker Dev Container as this includes everything you need.
 
 1. Install VSCode
-   1. Ensure the `ms-vscode-remote.remote-containers` extension is installed.
+    1. Ensure the `ms-vscode-remote.remote-containers` extension is installed.
 2. Install Docker Desktop
 3. Clone the repository
 4. Reopen in Container
@@ -125,17 +125,17 @@ The recommended approach is to use a Docker Dev Container as this includes every
 1. Clone the repository
 2. Create a virtual environment:
 
-   ```powershell
-   python -m venv venv
-   source venv/bin/activate   # On Linux / MacOS
-   venv\Scripts\activate      # On Windows
-   ```
+    ```powershell
+    python -m venv venv
+    source venv/bin/activate   # On Linux / MacOS
+    venv\Scripts\activate      # On Windows
+    ```
 
 3. Install development dependencies:
 
-   ```bash
-   pip install -e ".[dev,test]"
-   ```
+    ```bash
+    pip install -e ".[dev,test]"
+    ```
 
 ### Running Tests
 
