@@ -2,13 +2,31 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,windows,osx,linux,visualstudiocode,pycharm
 
 ### MegaLinter ###
-
+# Local run artifacts from oxsecurity/megalinter - only ever meant to be
+# uploaded as a CI artifact, never committed (see .github/workflows/mega-linter.yml)
+.megalinter_github_conf/
 megalinter-reports/
+mega-linter.log
 
 ### GitIngest ###
 # GitIngest file for priming LLM chat prompt
 digest.txt
 scripts/*gitingest.sh
+
+### Git ###
+# Created by git for backups. To disable backups in Git:
+# $ git config --global mergetool.keepBackup false
+*.orig
+
+# Created by git when using merge tools for conflicts
+*.BACKUP.*
+*.BASE.*
+*.LOCAL.*
+*.REMOTE.*
+*_BACKUP_*.txt
+*_BASE_*.txt
+*_LOCAL_*.txt
+*_REMOTE_*.txt
 
 ### Linux ###
 *~
@@ -53,6 +71,10 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+### OSX Patch ###
+# iCloud generated files
+*.icloud
 
 ### PyCharm ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
