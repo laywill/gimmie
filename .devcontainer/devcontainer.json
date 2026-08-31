@@ -37,13 +37,13 @@
                 "python.formatting.provider": "black",
                 "python.formatting.blackArgs": [
                     "--line-length",
-                    "100"
+                    "88"
                 ],
                 "[python]": {
                     "editor.defaultFormatter": "ms-python.black-formatter",
                     "editor.formatOnSave": true,
                     "editor.rulers": [
-                        100
+                        88
                     ]
                 }
             }

@@ -26,7 +26,9 @@ SPELL_LYCHEE_DISABLE_ERRORS: true
 # Exclude GitHub-relative links that only resolve correctly when rendered on
 # GitHub (e.g. SECURITY.md's "../../issues/new/choose" link), since Lychee
 # checks them against the local filesystem instead.
-SPELL_LYCHEE_ARGUMENTS: "--exclude 'issues/new/choose'"
+# Also exclude the deliberately-404 URL in examples/get-these-files.txt,
+# which demonstrates gimmie's handling of a missing file.
+SPELL_LYCHEE_ARGUMENTS: "--exclude 'issues/new/choose' --exclude 'williamlay.co.uk/not_found.txt'"
 
 # Some Python Lint tools will fail without requirements installed
 PRE_COMMANDS:

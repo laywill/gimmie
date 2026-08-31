@@ -36,7 +36,11 @@
 
     // YAML Specific settings
     "[yaml]": {
-        "editor.tabSize": 2
+        "editor.tabSize": 2,
+        // Matches the line-length.max set in .yamllint.yml
+        "editor.rulers": [
+            120
+        ]
     },
 
     // Markdown/LaTeX/reST commonly use trailing whitespace for hard line
