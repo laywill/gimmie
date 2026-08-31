@@ -1,6 +1,3 @@
-# Created by https://www.toptal.com/developers/gitignore/api/python,windows,osx,linux,visualstudiocode,pycharm
-# Edit at https://www.toptal.com/developers/gitignore?templates=python,windows,osx,linux,visualstudiocode,pycharm
-
 ### MegaLinter ###
 # Local run artifacts from oxsecurity/megalinter - only ever meant to be
 # uploaded as a CI artifact, never committed (see .github/workflows/mega-linter.yml)
@@ -12,6 +9,9 @@ mega-linter.log
 # GitIngest file for priming LLM chat prompt
 digest.txt
 scripts/*gitingest.sh
+
+# Created by https://www.toptal.com/developers/gitignore/api/python,windows,osx,linux,visualstudiocode,pycharm
+# Edit at https://www.toptal.com/developers/gitignore?templates=python,windows,osx,linux,visualstudiocode,pycharm
 
 ### Git ###
 # Created by git for backups. To disable backups in Git:
