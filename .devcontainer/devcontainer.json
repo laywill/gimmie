@@ -19,7 +19,9 @@
                 // Formatters required by pre-commit config
                 "ms-python.black-formatter",
                 // YAML support for our config files
-                "redhat.vscode-yaml"
+                "redhat.vscode-yaml",
+                // Spell checking against .cspell.json
+                "streetsidesoftware.code-spell-checker"
             ],
             "settings": {
                 "python.defaultInterpreterPath": "/usr/local/bin/python3",
@@ -35,13 +37,13 @@
                 "python.formatting.provider": "black",
                 "python.formatting.blackArgs": [
                     "--line-length",
-                    "100"
+                    "88"
                 ],
                 "[python]": {
                     "editor.defaultFormatter": "ms-python.black-formatter",
                     "editor.formatOnSave": true,
                     "editor.rulers": [
-                        100
+                        88
                     ]
                 }
             }
