@@ -38,4 +38,10 @@ jobs:
         run: pre-commit validate-config
 
       - name: Run pre-commit on all files
+        env:
+          # no-commit-to-branch fails unconditionally in CI: pushes to main
+          # are checked out as branch "main", which is exactly what the hook
+          # exists to block locally. Skip it here; it still runs as a normal
+          # git hook for local commits.
+          SKIP: no-commit-to-branch
         run: pre-commit run --all-files --show-diff-on-failure
