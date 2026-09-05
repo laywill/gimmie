@@ -5,6 +5,9 @@ on:
   push:
     tags:
       - "v*" # Run only when a tag starting with 'v' is pushed
+  # checkov:skip=CKV_GHA_7:The tag input is the build entry point, selecting
+  # which existing tag to publish. It is validated against the package version
+  # before anything is built.
   workflow_dispatch:
     inputs:
       tag:
