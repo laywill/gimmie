@@ -23,6 +23,13 @@ DISABLE_LINTERS:
 # Not worried if Lychee finds dead links
 SPELL_LYCHEE_DISABLE_ERRORS: true
 
+# Exclude GitHub-relative links that only resolve correctly when rendered on
+# GitHub (e.g. SECURITY.md's "../../issues/new/choose" link), since Lychee
+# checks them against the local filesystem instead.
+# Also exclude the deliberately-404 URL in examples/get-these-files.txt,
+# which demonstrates gimmie's handling of a missing file.
+SPELL_LYCHEE_ARGUMENTS: "--exclude 'issues/new/choose' --exclude 'williamlay.co.uk/not_found.txt'"
+
 # Some Python Lint tools will fail without requirements installed
 PRE_COMMANDS:
   # Export the TOML dependencies to requirements.txt file that each venv can consume
@@ -60,8 +67,14 @@ JSON_JSONLINT_ARGUMENTS: "--comments --trailing-newline --trailing-commas"
 # CSpell Config
 SPELL_CSPELL_FILTER_REGEX_EXCLUDE: (\.cspell\.json|\.gitignore)
 
+# EditorConfig Checker Config
+# Exclude LICENSE: it is the canonical Apache License 2.0 text copied
+# verbatim from apache.org and should not be reformatted to satisfy
+# indent-size rules.
+EDITORCONFIG_EDITORCONFIG_CHECKER_FILTER_REGEX_EXCLUDE: (LICENSE)
+
 # Filter Configuration
-FILTER_REGEX_EXCLUDE: (\.git|\.github|\.venv|\.pytest_cache|\.vscode|__pycache__)
+FILTER_REGEX_EXCLUDE: (\.git|\.venv|\.pytest_cache|\.vscode|__pycache__)
 
 # Checkov Configuration
 REPOSITORY_CHECKOV_ARGUMENTS: "--skip-check CKV2_GHA_1"

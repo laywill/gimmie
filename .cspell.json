@@ -1,34 +1,38 @@
 {
-    "allowCompoundWords": true,
-    "dictionaries": [
-        "bash",
-        "companies",
-        "en_US",
-        "en-GB",
-        "filetypes",
-        "fonts",
-        "misc",
-        "powershell",
-        "python",
-        "softwareTerms"
-    ],
-    "flagWords": [
-        "hte"
-    ],
-    "language": "en-GB",
-    "version": "0.2",
-    "words": [
-        "devcontainers",
-        "gimmie",
-        "isort",
-        "Linters",
-        "pylance",
-        "pypa",
-        "pyupgrade",
-        "Retriable",
-        "Retryable"
-    ],
-    "ignoreWords": [
-        "stefanzweifel"
-    ]
+  "version": "0.2",
+  "language": "en-GB",
+  "allowCompoundWords": true,
+  "dictionaries": [
+    "en-GB",
+    "en_US",
+    "softwareTerms",
+    "bash",
+    "powershell",
+    "python",
+    "yaml",
+    "json",
+    "markdown",
+    "git",
+    "filetypes",
+    "fonts",
+    "misc",
+    "companies"
+  ],
+  "flagWords": ["hte"],
+  // Add project-specific terms here as they come up, e.g. "words": ["myterm"]
+  "words": [
+    "devcontainers",
+    "gimmie",
+    "isort",
+    "JSONLINT",
+    "Linters",
+    "LINTERS",
+    "pylance",
+    "pypa",
+    "pyupgrade",
+    "Retriable",
+    "Retryable"
+  ],
+  "ignoreWords": ["stefanzweifel"],
+  "ignorePaths": [".git", ".github", "node_modules", "megalinter-reports"]
 }

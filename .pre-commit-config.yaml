@@ -7,7 +7,7 @@ repos:
 
   # Sort all Python import statements
   - repo: https://github.com/pycqa/isort
-    rev: 8.0.1
+    rev: 9.0.1
     hooks:
       - id: isort
         name: isort (Python)
@@ -32,8 +32,9 @@ repos:
   # Linters to validate beautifiers output
   ########################################
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v6.0.0
+    rev: 3e8a8703264a2f4a69428a0aa4dcb512790b2c8c  # v6.0.0
     hooks:
+      - id: check-added-large-files
       - id: check-ast
       - id: check-case-conflict
       - id: check-docstring-first
@@ -41,8 +42,10 @@ repos:
       - id: check-merge-conflict
       - id: check-toml
       - id: check-yaml
+      - id: detect-private-key
       - id: end-of-file-fixer
       - id: fix-byte-order-marker
+      - id: mixed-line-ending
       - id: name-tests-test
         args: [--pytest-test-first]
       - id: no-commit-to-branch

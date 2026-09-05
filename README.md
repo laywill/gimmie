@@ -39,16 +39,16 @@ pip install gimmie
 
 1. Clone the repository:
 
-   ```bash
-   git clone https://github.com/yourusername/gimmie.git
-   cd gimmie
-   ```
+    ```bash
+    git clone https://github.com/yourusername/gimmie.git
+    cd gimmie
+    ```
 
 2. Install the package:
 
-   ```bash
-   pip install .
-   ```
+    ```bash
+    pip install .
+    ```
 
 ## Usage
 
@@ -56,17 +56,17 @@ pip install gimmie
 
 1. Create a text file (e.g., `files-to-download.txt`) with one URL per line:
 
-   ```plaintext
-   https://example.com/file1.pdf
-   https://example.com/file2.jpg
-   https://example.com/file3.zip
-   ```
+    ```plaintext
+    https://example.com/file1.pdf
+    https://example.com/file2.jpg
+    https://example.com/file3.zip
+    ```
 
 2. Run Gimmie with the file as an argument:
 
-   ```bash
-   gimmie files-to-download.txt
-   ```
+    ```bash
+    gimmie files-to-download.txt
+    ```
 
 3. Files will be downloaded to a `downloads` directory in your current working directory.
 
@@ -115,7 +115,7 @@ https://example.com/file3.zip
 The recommended approach is to use a Docker Dev Container as this includes everything you need.
 
 1. Install VSCode
-   1. Ensure the `ms-vscode-remote.remote-containers` extension is installed.
+    1. Ensure the `ms-vscode-remote.remote-containers` extension is installed.
 2. Install Docker Desktop
 3. Clone the repository
 4. Reopen in Container
@@ -125,17 +125,17 @@ The recommended approach is to use a Docker Dev Container as this includes every
 1. Clone the repository
 2. Create a virtual environment:
 
-   ```powershell
-   python -m venv venv
-   source venv/bin/activate   # On Linux / MacOS
-   venv\Scripts\activate      # On Windows
-   ```
+    ```powershell
+    python -m venv venv
+    source venv/bin/activate   # On Linux / MacOS
+    venv\Scripts\activate      # On Windows
+    ```
 
 3. Install development dependencies:
 
-   ```bash
-   pip install -e ".[dev,test]"
-   ```
+    ```bash
+    pip install -e ".[dev,test]"
+    ```
 
 ### Running Tests
 
@@ -187,10 +187,16 @@ This ensures that versions are rolled correctly.
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for how to
+file issues and submit pull requests. Open a pull request using the provided
+[PR template](.github/PULL_REQUEST_TEMPLATE.md). CODEOWNERS in
+[.github/CODEOWNERS](.github/CODEOWNERS) will be requested for review.
+This project follows a [Code of Conduct](CODE_OF_CONDUCT.md). See
+[SECURITY.md](SECURITY.md) for how to report vulnerabilities.
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+[.editorconfig](.editorconfig) and [.vscode/settings.json](.vscode/settings.json)
+keep editor formatting consistent (indentation, line endings, trailing
+whitespace), [.gitattributes](.gitattributes) normalizes line endings and
+marks binary files, and [pre-commit](https://pre-commit.com/) hooks in
+[.pre-commit-config.yaml](.pre-commit-config.yaml) catch common issues
+locally before you push (install with `pre-commit install`).
