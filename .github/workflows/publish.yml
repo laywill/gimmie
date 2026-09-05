@@ -5,6 +5,12 @@ on:
   push:
     tags:
       - "v*" # Run only when a tag starting with 'v' is pushed
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Existing tag to publish (e.g. v0.3.0)"
+        required: true
+        type: string
 
 jobs:
   validate-version:
@@ -14,6 +20,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
+          ref: ${{ inputs.tag || github.ref }}
           fetch-depth: 0
 
       - name: Set up Python
@@ -27,9 +34,16 @@ jobs:
           python -m pip install hatch
 
       - name: Validate tag version matches package version
+        env:
+          INPUT_TAG: ${{ inputs.tag }}
         run: |
-          # Extract tag version (remove 'v' prefix)
-          GIT_TAG=${GITHUB_REF#refs/tags/v}
+          # Extract tag version (remove 'v' prefix) from the dispatch
+          # input when run manually, otherwise from the pushed tag
+          if [ -n "$INPUT_TAG" ]; then
+            GIT_TAG=${INPUT_TAG#v}
+          else
+            GIT_TAG=${GITHUB_REF#refs/tags/v}
+          fi
           echo "Git tag version: $GIT_TAG"
 
           # Get package version from hatch
@@ -55,6 +69,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ inputs.tag || github.ref }}
 
       - name: Set up Python
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
@@ -78,6 +94,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ inputs.tag || github.ref }}
 
       - name: Set up Python
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
