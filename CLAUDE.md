@@ -64,6 +64,7 @@ Two CI gates enforce this:
 - `no-commit-to-branch` blocks commits on `main` locally; work on a branch. CI skips that hook via `SKIP=no-commit-to-branch`.
 - MegaLinter runs on every push/PR with `APPLY_FIXES: all` and **commits fixes directly back to the PR branch**, so pull before continuing work after CI runs. Disabled linters and the reasons why are documented inline in [.mega-linter.yml](.mega-linter.yml) — check there before re-enabling one.
 - cspell runs over the repo: new project-specific jargon goes in the `words` list in [.cspell.json](.cspell.json) or the build fails.
+- **Every GitHub Actions `uses:` must be pinned to a full commit SHA with the semantic version in a trailing comment** — `uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1`. Never a tag or branch ref: a tag is mutable and re-pointing it silently changes what runs in CI. The SHA is the security boundary; the comment is what makes the pin readable and is what Dependabot rewrites when it bumps the action, so a pin without one is a pin nobody can review. This applies to new workflows and to any `uses:` line you touch — several existing files (`pre-commit.yml`, `publish.yml`, `pytest.yml`, `version_check.yml`) are correctly SHA-pinned but still missing the comment, so add it as you go.
 - Tests run against Python 3.10–3.14. Line endings are LF-normalized via [.gitattributes](.gitattributes); `.editorconfig` sets 4-space indent for `.py`, 2 elsewhere.
 
 ## Testing notes
