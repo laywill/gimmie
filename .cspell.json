@@ -21,6 +21,7 @@
   "flagWords": ["hte"],
   // Add project-specific terms here as they come up, e.g. "words": ["myterm"]
   "words": [
+    "Dependabot",
     "devcontainers",
     "gimmie",
     "isort",
