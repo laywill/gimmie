@@ -7,7 +7,7 @@ repos:
 
   # Sort all Python import statements
   - repo: https://github.com/pycqa/isort
-    rev: 9.0.1
+    rev: 9.0.2
     hooks:
       - id: isort
         name: isort (Python)
@@ -23,7 +23,7 @@ repos:
 
   # Beautify Python
   - repo: https://github.com/psf/black
-    rev: 26.5.1
+    rev: 26.10.0
     hooks:
       - id: black
         name: black (Python)
